@@ -33,4 +33,20 @@ class chansonCell: UITableViewCell {
         artisteEtTitreLabel.attributedText = attributed
     }
     
+    func telechargerImage() {
+        miniature.image = #imageLiteral(resourceName: "logo")
+        telechargerImage()
+        if let url = URL(string: self.chanson.miniatureUrl) {
+            let session = URLSession.shared
+            let task = session.dataTask(with: url) { (data, response, error) in
+                if let imageData = data, let image = UIImage(data: imageData) {
+                    DispatchQueue.main.async {
+                        self.miniature.image = image
+                    }
+                }
+            }
+            task.resume()
+        }
+    }
+    
 }
